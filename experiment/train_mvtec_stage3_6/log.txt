@@ -1,0 +1,24 @@
+26-10-27 16:24:57.579 - INFO: Training: mvtec | Backbone: ViT-L/14@336px | Stage1 Epochs: 3 | Stage2 Epochs: 6 | Total Epochs: 9 | BS: 8 | Image: 518 | Layers: [6, 12, 18, 24]
+26-10-27 16:24:58.695 - INFO: Cross-attention loaded (23,121,940 params)
+26-10-27 16:24:58.697 - INFO: SpatialRefinement module loaded (10 params, identity-init)
+26-10-27 16:25:06.481 - INFO: DINOv3 teacher loaded (frozen, regularity-weighted seg_loss)
+26-10-27 16:25:06.481 - INFO: Tokens initialized randomly (text init removed — proven harmful on MVTec)
+26-10-27 16:25:06.613 - INFO: Epoch 1/9 - Stage 1 (token separation)
+26-10-27 16:27:36.487 - INFO: Epoch [1/9] - Stage 1 (token separation) - seg: 3.6881, cls: 0.0000, sep: 0.1467
+26-10-27 16:27:38.408 - INFO: Epoch 2/9 - Stage 1 (token separation)
+26-10-27 16:30:05.377 - INFO: Epoch [2/9] - Stage 1 (token separation) - seg: 2.7142, cls: 0.0000, sep: 0.0005
+26-10-27 16:30:07.312 - INFO: Epoch 3/9 - Stage 1 (token separation)
+26-10-27 16:32:34.166 - INFO: Epoch [3/9] - Stage 1 (token separation) - seg: 2.2575, cls: 0.0000, sep: 0.0000
+26-10-27 16:32:35.670 - INFO: Epoch 4/9 - Stage 2 (SCA/SAF training)
+26-10-27 16:34:03.249 - INFO: Epoch [4/9] - Stage 2 (SCA/SAF training) - seg: 2.4939, cls: 0.2354, sep: 0.0000
+26-10-27 16:34:07.050 - INFO: Epoch 5/9 - Stage 2 (SCA/SAF training)
+26-10-27 16:35:34.693 - INFO: Epoch [5/9] - Stage 2 (SCA/SAF training) - seg: 2.2945, cls: 0.0721, sep: 0.0000
+26-10-27 16:35:38.550 - INFO: Epoch 6/9 - Stage 2 (SCA/SAF training)
+26-10-27 16:37:06.014 - INFO: Epoch [6/9] - Stage 2 (SCA/SAF training) - seg: 2.1106, cls: 0.0420, sep: 0.0000
+26-10-27 16:37:09.860 - INFO: Epoch 7/9 - Stage 2 (SCA/SAF training)
+26-10-27 16:38:37.400 - INFO: Epoch [7/9] - Stage 2 (SCA/SAF training) - seg: 1.8338, cls: 0.0616, sep: 0.0000
+26-10-27 16:38:41.301 - INFO: Epoch 8/9 - Stage 2 (SCA/SAF training)
+26-10-27 16:40:09.016 - INFO: Epoch [8/9] - Stage 2 (SCA/SAF training) - seg: 1.6223, cls: 0.0260, sep: 0.0000
+26-10-27 16:40:12.430 - INFO: Epoch 9/9 - Stage 2 (SCA/SAF training)
+26-10-27 16:41:40.302 - INFO: Epoch [9/9] - Stage 2 (SCA/SAF training) - seg: 1.5036, cls: 0.0115, sep: 0.0000
+26-10-27 16:41:47.962 - INFO: Training completed! Model saved to /media/lenovo/sda6/data/pz/visualad_dinov3/experiment/train_mvtec_stage3_6/final_model.pth

@@ -1,5 +1,4 @@
-# Training artifacts / checkpoints
-experiment/
+# Training weights (logs/results under experiment/ are tracked)
 *.pth
 *.pt
 *.ckpt
@@ -18,5 +17,4 @@ __pycache__/
 SPACE SPAtial-aware Consistency rEgularization for anomaly detection in.pdf
 
 # Misc
-*.log
 .DS_Store

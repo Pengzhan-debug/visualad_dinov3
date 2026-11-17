@@ -1,0 +1,28 @@
+26-10-27 09:55:27.298 - INFO: Training: visa | Backbone: ViT-L/14@336px | Stage1 Epochs: 5 | Stage2 Epochs: 6 | Total Epochs: 11 | BS: 8 | Image: 518 | Layers: [6, 12, 18, 24]
+26-10-27 09:55:29.385 - INFO: Cross-attention loaded (23,121,940 params)
+26-10-27 09:55:29.387 - INFO: SpatialRefinement module loaded (10 params, identity-init)
+26-10-27 09:55:33.732 - INFO: DINOv3 teacher loaded (frozen, regularity-weighted seg_loss)
+26-10-27 09:55:33.733 - INFO: Tokens initialized randomly (text init removed — proven harmful on MVTec)
+26-10-27 09:55:33.823 - INFO: Epoch 1/11 - Stage 1 (token separation)
+26-10-27 09:58:42.972 - INFO: Epoch [1/11] - Stage 1 (token separation) - seg: 3.9662, cls: 0.0000, sep: 0.1175
+26-10-27 09:58:44.500 - INFO: Epoch 2/11 - Stage 1 (token separation)
+26-10-27 10:01:53.383 - INFO: Epoch [2/11] - Stage 1 (token separation) - seg: 3.4559, cls: 0.0000, sep: 0.0000
+26-10-27 10:01:54.763 - INFO: Epoch 3/11 - Stage 1 (token separation)
+26-10-27 10:05:08.583 - INFO: Epoch [3/11] - Stage 1 (token separation) - seg: 2.2648, cls: 0.0000, sep: 0.0000
+26-10-27 10:05:09.937 - INFO: Epoch 4/11 - Stage 1 (token separation)
+26-10-27 10:08:21.244 - INFO: Epoch [4/11] - Stage 1 (token separation) - seg: 1.7503, cls: 0.0000, sep: 0.0002
+26-10-27 10:08:23.275 - INFO: Epoch 5/11 - Stage 1 (token separation)
+26-10-27 10:11:33.807 - INFO: Epoch [5/11] - Stage 1 (token separation) - seg: 1.6342, cls: 0.0000, sep: 0.0005
+26-10-27 10:11:35.595 - INFO: Epoch 6/11 - Stage 2 (SCA/SAF training)
+26-10-27 10:13:25.581 - INFO: Epoch [6/11] - Stage 2 (SCA/SAF training) - seg: 3.5783, cls: 0.7676, sep: 0.0009
+26-10-27 10:13:28.376 - INFO: Epoch 7/11 - Stage 2 (SCA/SAF training)
+26-10-27 10:15:18.024 - INFO: Epoch [7/11] - Stage 2 (SCA/SAF training) - seg: 3.4222, cls: 0.2320, sep: 0.0009
+26-10-27 10:15:21.868 - INFO: Epoch 8/11 - Stage 2 (SCA/SAF training)
+26-10-27 10:17:11.806 - INFO: Epoch [8/11] - Stage 2 (SCA/SAF training) - seg: 3.3452, cls: 0.1361, sep: 0.0008
+26-10-27 10:17:15.527 - INFO: Epoch 9/11 - Stage 2 (SCA/SAF training)
+26-10-27 10:19:05.395 - INFO: Epoch [9/11] - Stage 2 (SCA/SAF training) - seg: 3.2876, cls: 0.0923, sep: 0.0008
+26-10-27 10:19:08.924 - INFO: Epoch 10/11 - Stage 2 (SCA/SAF training)
+26-10-27 10:20:58.490 - INFO: Epoch [10/11] - Stage 2 (SCA/SAF training) - seg: 3.1710, cls: 0.0833, sep: 0.0008
+26-10-27 10:21:00.891 - INFO: Epoch 11/11 - Stage 2 (SCA/SAF training)
+26-10-27 10:22:50.680 - INFO: Epoch [11/11] - Stage 2 (SCA/SAF training) - seg: 3.1027, cls: 0.0622, sep: 0.0008
+26-10-27 10:22:58.236 - INFO: Training completed! Model saved to /media/lenovo/sda6/data/pz/visualad_dinov3/experiment/train_visa/final_model.pth
