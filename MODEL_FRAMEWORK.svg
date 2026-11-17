@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1280" viewBox="0 0 1800 1280" role="img" aria-labelledby="title desc">
+  <title id="title">VisualAD-DINOv3 模型框架图</title>
+  <desc id="desc">从数据输入、CLIP ViT双Token主干、多层SCA和SAF异常图生成，到训练损失与测试后处理的完整框架。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <marker id="arrowOpt" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#7c3aed"/></marker>
+    <style>
+      .title{font:700 30px Arial,"Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:500 16px Arial,"Microsoft YaHei",sans-serif;fill:#475569}
+      .group{fill:#f8fafc;stroke:#94a3b8;stroke-width:2}.gtitle{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#0f172a}
+      .box{fill:#fff;stroke:#64748b;stroke-width:2}.clip{fill:#e0f2fe;stroke:#0284c7}.learn{fill:#dcfce7;stroke:#16a34a}.train{fill:#fef3c7;stroke:#d97706}.test{fill:#ede9fe;stroke:#7c3aed}.inactive{fill:#f1f5f9;stroke:#94a3b8;stroke-dasharray:7 5}
+      .label{font:600 15px Arial,"Microsoft YaHei",sans-serif;fill:#0f172a;text-anchor:middle}.small{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#334155;text-anchor:middle}.note{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#475569}
+      .edge{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}.opt{fill:none;stroke:#7c3aed;stroke-width:2;stroke-dasharray:7 5;marker-end:url(#arrowOpt)}
+    </style>
+  </defs>
+  <rect width="1800" height="1280" fill="#ffffff"/>
+  <text x="900" y="44" class="title" text-anchor="middle">VisualAD-DINOv3：代码实际执行框架</text>
+  <text x="900" y="72" class="subtitle" text-anchor="middle">默认：CLIP ViT-L/14@336px · 输入 518×518 · 特征层 6/12/18/24 · 双 Token 异常定位</text>
+
+  <rect x="55" y="105" width="1690" height="310" rx="18" class="group"/>
+  <text x="80" y="138" class="gtitle">A. 数据与冻结的 CLIP 视觉主干</text>
+  <rect x="85" y="170" width="190" height="82" rx="12" class="box"/><text x="180" y="203" class="label">meta.json / Dataset</text><text x="180" y="226" class="small">image · mask · label · class</text>
+  <rect x="325" y="170" width="190" height="82" rx="12" class="box"/><text x="420" y="203" class="label">图像预处理</text><text x="420" y="226" class="small">Resize + CLIP Normalize</text>
+  <rect x="570" y="155" width="220" height="112" rx="12" class="clip"/><text x="680" y="190" class="label">Patch Embedding</text><text x="680" y="214" class="small">Conv 14×14 / stride 14</text><text x="680" y="238" class="small">1369 × 1024</text>
+  <rect x="845" y="145" width="235" height="132" rx="12" class="learn"/><text x="962" y="177" class="label">序列拼接 + 位置编码</text><text x="962" y="204" class="small">[A, N, CLS, patches]</text><text x="962" y="228" class="small">A/N token + pos 可学习</text><text x="962" y="252" class="small">CLS/patch pos 冻结</text>
+  <rect x="1140" y="145" width="230" height="132" rx="12" class="clip"/><text x="1255" y="184" class="label">CLIP Vision Transformer</text><text x="1255" y="211" class="small">24 blocks · width 1024</text><text x="1255" y="235" class="small">16 attention heads</text><text x="1255" y="259" class="small">主干参数冻结</text>
+  <rect x="1425" y="142" width="270" height="138" rx="12" class="clip"/><text x="1560" y="174" class="label">多层输出</text><text x="1560" y="202" class="small">Layer 6 / 12 / 18 / 24</text><text x="1560" y="226" class="small">每层 [A,N,CLS,patches]</text><text x="1560" y="250" class="small">ln_post → 最终 A/N/CLS</text>
+  <path d="M275 211 H325" class="edge"/><path d="M515 211 H570" class="edge"/><path d="M790 211 H845" class="edge"/><path d="M1080 211 H1140" class="edge"/><path d="M1370 211 H1425" class="edge"/>
+  <rect x="85" y="310" width="350" height="65" rx="12" class="inactive"/><text x="260" y="338" class="label">CLIP 文本 Transformer + BPE</text><text x="260" y="360" class="small">仅兼容预训练权重，训练/测试入口未使用</text>
+  <rect x="480" y="310" width="355" height="65" rx="12" class="inactive"/><text x="657" y="338" class="label">visual.proj：1024 → 768</text><text x="657" y="360" class="small">被冻结，当前异常检测路径未调用</text>
+
+  <rect x="55" y="445" width="1690" height="305" rx="18" class="group"/>
+  <text x="80" y="478" class="gtitle">B. 四层共享流程：SCA 调整双 Token，SAF 调整 Patch</text>
+  <rect x="90" y="515" width="230" height="135" rx="12" class="learn"/><text x="205" y="548" class="label">Layer l tokens</text><text x="205" y="576" class="small">最终 A/N + 该层 patches</text><text x="205" y="600" class="small">l ∈ {6,12,18,24}</text><text x="205" y="625" class="small">patch_start_idx = 3</text>
+  <rect x="385" y="500" width="290" height="105" rx="12" class="learn"/><text x="530" y="533" class="label">SCA（每层独立）</text><text x="530" y="557" class="small">4 Anchor Q · Patch K/V</text><text x="530" y="581" class="small">Token gate + residual scale</text>
+  <rect x="385" y="625" width="290" height="82" rx="12" class="learn"/><text x="530" y="657" class="label">SAF（每层独立 MLP）</text><text x="530" y="681" class="small">Patch 1024 → 1024 → 1024</text>
+  <rect x="745" y="535" width="260" height="110" rx="12" class="box"/><text x="875" y="570" class="label">Patch 异常分数</text><text x="875" y="597" class="small">cos(patch, Aₗ)</text><text x="875" y="621" class="small">− cos(patch, Nₗ)</text>
+  <rect x="1075" y="535" width="245" height="110" rx="12" class="box"/><text x="1197" y="570" class="label">空间恢复</text><text x="1197" y="597" class="small">37×37 reshape</text><text x="1197" y="621" class="small">bilinear → 518×518</text>
+  <rect x="1390" y="520" width="290" height="140" rx="12" class="learn"/><text x="1535" y="554" class="label">SpatialRefinement</text><text x="1535" y="580" class="small">3×3 Conv + learnable α</text><text x="1535" y="606" class="small">输出 4 张逐层异常图</text><text x="1535" y="634" class="small">identity initialization</text>
+  <path d="M320 552 H385" class="edge"/><path d="M320 620 C345 620 350 666 385 666" class="edge"/><path d="M675 552 H745" class="edge"/><path d="M675 666 C710 666 710 608 745 608" class="edge"/><path d="M1005 590 H1075" class="edge"/><path d="M1320 590 H1390" class="edge"/>
+
+  <rect x="55" y="780" width="815" height="430" rx="18" class="group"/>
+  <text x="80" y="813" class="gtitle">C. 训练路径</text>
+  <rect x="90" y="850" width="230" height="82" rx="12" class="train"/><text x="205" y="880" class="label">像素分割损失</text><text x="205" y="905" class="small">4层 Focal + Dice</text>
+  <rect x="365" y="850" width="230" height="82" rx="12" class="train"/><text x="480" y="880" class="label">图像分类损失</text><text x="480" y="905" class="small">sum maps → Top 1% → BCE</text>
+  <rect x="640" y="850" width="190" height="82" rx="12" class="train"/><text x="735" y="880" class="label">Token 分离</text><text x="735" y="905" class="small">ReLU(cos+0.5)²</text>
+  <rect x="90" y="975" width="335" height="120" rx="12" class="train"/><text x="257" y="1008" class="label">Stage 1（默认 5 epochs）</text><text x="257" y="1034" class="small">训练 A/N token、ln_post、SAF、SCR</text><text x="257" y="1058" class="small">Loss = 0.1×seg + w_sep×sep</text><text x="257" y="1082" class="small">SCA 冻结</text>
+  <rect x="485" y="975" width="345" height="120" rx="12" class="train"/><text x="657" y="1008" class="label">Stage 2（默认 6 epochs）</text><text x="657" y="1034" class="small">A/N token 冻结；ln_post/SAF/SCR 训练</text><text x="657" y="1058" class="small">Loss = seg + image BCE</text><text x="657" y="1082" class="small">SCA 有梯度，但当前 LR=0</text>
+  <rect x="265" y="1130" width="395" height="52" rx="12" class="box"/><text x="462" y="1162" class="label">保存 token / ln_post / SAF / SCA / SCR / optimizer</text>
+  <path d="M205 932 V975" class="edge"/><path d="M480 932 C480 950 570 950 570 975" class="edge"/><path d="M735 932 C735 950 345 950 345 975" class="edge"/><path d="M257 1095 C257 1113 390 1113 390 1130" class="edge"/><path d="M657 1095 C657 1113 535 1113 535 1130" class="edge"/>
+  <rect x="90" y="830" width="740" height="370" rx="14" fill="none" stroke="#d97706" stroke-width="1.5"/>
+
+  <rect x="905" y="780" width="840" height="430" rx="18" class="group"/>
+  <text x="930" y="813" class="gtitle">D. 测试路径</text>
+  <rect x="940" y="850" width="220" height="82" rx="12" class="test"/><text x="1050" y="880" class="label">DINO 图传播</text><text x="1050" y="905" class="small">Patch kNN affinity，可选</text>
+  <rect x="1210" y="850" width="220" height="82" rx="12" class="test"/><text x="1320" y="880" class="label">4层一致性融合</text><text x="1320" y="905" class="small">local variance → softmax</text>
+  <rect x="1480" y="850" width="225" height="82" rx="12" class="test"/><text x="1592" y="880" class="label">像素异常图</text><text x="1592" y="905" class="small">Pixel metrics / 可视化</text>
+  <rect x="940" y="985" width="220" height="88" rx="12" class="test"/><text x="1050" y="1015" class="label">Top 1% mean</text><text x="1050" y="1042" class="small">DINO 不可用时回退分数</text>
+  <rect x="1210" y="985" width="220" height="88" rx="12" class="test"/><text x="1320" y="1015" class="label">MuSc Patch Rarity</text><text x="1320" y="1042" class="small">同类测试图像联合评分</text>
+  <rect x="1480" y="985" width="225" height="88" rx="12" class="test"/><text x="1592" y="1015" class="label">RsCIN</text><text x="1592" y="1042" class="small">CLS kNN 分数传播</text>
+  <rect x="1210" y="1120" width="495" height="62" rx="12" class="box"/><text x="1457" y="1146" class="label">最终图像异常分数</text><text x="1457" y="1168" class="small">Sample AUROC / F1 / AP</text>
+  <path d="M1160 891 H1210" class="edge"/><path d="M1430 891 H1480" class="edge"/><path d="M1592 932 C1592 955 1050 955 1050 985" class="edge"/><path d="M1592 932 C1592 955 1320 955 1320 985" class="edge"/><path d="M1160 1029 C1190 1029 1185 1151 1210 1151" class="edge"/><path d="M1430 1029 H1480" class="edge"/><path d="M1592 1073 V1120" class="edge"/>
+  <rect x="935" y="1120" width="220" height="62" rx="12" class="inactive"/><text x="1045" y="1146" class="label">DINO 不可用</text><text x="1045" y="1168" class="small">使用 Top-K 基础分数</text>
+
+  <rect x="1410" y="310" width="285" height="65" rx="12" class="test"/><text x="1552" y="338" class="label">冻结 DINOv3 ViT-L/16</text><text x="1552" y="360" class="small">训练可选权重 · 测试图传播/rarity</text>
+  <path d="M1552 375 C1552 425 1050 425 1050 850" class="opt"/>
+  <path d="M1552 375 C1720 430 1720 1000 1430 1029" class="opt"/>
+
+  <text x="60" y="1250" class="note">实线：主执行路径　紫色虚线：DINOv3 可选辅助路径　灰色虚线框：保留但当前入口未使用　绿色：可学习检测组件</text>
+</svg>

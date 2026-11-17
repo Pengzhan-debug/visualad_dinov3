@@ -1,0 +1,22 @@
+# Training artifacts / checkpoints
+experiment/
+*.pth
+*.pt
+*.ckpt
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Third-party paper (copyright)
+SPACE SPAtial-aware Consistency rEgularization for anomaly detection in.pdf
+
+# Misc
+*.log
+.DS_Store
